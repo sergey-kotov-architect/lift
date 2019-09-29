@@ -22,7 +22,7 @@ public class RunSession extends Thread {
         session.setStart(LocalDateTime.now());
         //TODO: implement session running according to its profile
         try {
-            Thread.sleep(10_000L); //for initial testing
+            Thread.sleep(session.getProfile().getSeconds() * 1000); //for initial testing
         } catch (InterruptedException e) {
             log.error(e);
         }
