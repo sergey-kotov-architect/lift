@@ -9,3 +9,11 @@ current requests, request stream expectation based on stochastic model
 * Git
 * IntelliJ IDEA
 * Insomnia REST Client
+
+### TODO
+* reformat logging
+* create unit-tests
+* prevent processing too many requests
+* use HTTPS
+* interrupt all sessions or by id
+* implement SessionTask::run
