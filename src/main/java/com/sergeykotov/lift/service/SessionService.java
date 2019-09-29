@@ -40,8 +40,7 @@ public class SessionService {
             throw new SessionPoolException();
         }
         profileService.validate(profile);
-        long id = ++sessionCounter;
-        Session session = new Session(id, profile);
+        Session session = new Session(++sessionCounter, profile);
         sessions.add(session);
         log.info("session " + session + " has been created based on profile " + profile);
 

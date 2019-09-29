@@ -9,8 +9,6 @@ import org.springframework.stereotype.Service;
 
 import java.util.Set;
 
-//TODO: make the constraints configurable
-
 @Service
 public class ProfileService {
     private static final Logger log = Logger.getLogger(ProfileService.class);
