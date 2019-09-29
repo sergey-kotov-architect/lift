@@ -1,10 +1,10 @@
 package com.sergeykotov.lift.service;
 
-import com.sergeykotov.lift.Task.RunSession;
 import com.sergeykotov.lift.domain.Profile;
 import com.sergeykotov.lift.domain.Session;
 import com.sergeykotov.lift.exception.NoSessionException;
 import com.sergeykotov.lift.exception.SessionPoolException;
+import com.sergeykotov.lift.task.SessionTask;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -16,9 +16,6 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.atomic.AtomicLong;
-
-//TODO: make POOL_SIZE configurable
-//TODO: handle sessionCounter overflow
 
 @Service
 public class SessionService {
@@ -48,8 +45,8 @@ public class SessionService {
         sessions.add(session);
         log.info("session " + session + " has been created based on profile " + profile);
 
-        RunSession runSession = new RunSession(session);
-        executorService.submit(runSession);
+        SessionTask sessionTask = new SessionTask(session);
+        executorService.submit(sessionTask);
         int runningSessions = ((ThreadPoolExecutor) executorService).getActiveCount();
         log.info("total sessions " + sessions.size() + ", running sessions " + runningSessions);
         return session;
