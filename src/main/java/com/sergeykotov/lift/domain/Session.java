@@ -6,7 +6,7 @@ import java.util.Objects;
 public class Session {
     private final long id;
     private final Profile profile;
-    private Metrics metrics;
+    private Metrics metrics = new Metrics();
     private LocalDateTime start;
     private LocalDateTime end;
 
