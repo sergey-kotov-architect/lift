@@ -4,6 +4,7 @@ current requests, request stream expectation based on stochastic model
 ### Technologies and tools
 * Java 8
 * Spring Boot, Spring Web/MVC, Spring Test/Junit
+* BCrypt
 * Apache Log4j
 * Maven
 * Git
