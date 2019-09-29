@@ -64,7 +64,7 @@ public class SessionService {
     }
 
     public void deleteAll() {
-        log.info("deleting all sessions...");
+        log.info("deleting all " + sessions.size() + " sessions...");
         sessions.clear();
         log.info("all sessions have been deleted");
     }
