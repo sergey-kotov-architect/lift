@@ -10,5 +10,6 @@ import org.springframework.test.context.junit4.SpringRunner;
 public class LiftApplicationTests {
     @Test
     public void contextLoads() {
+        //TODO: create unit-tests
     }
 }
