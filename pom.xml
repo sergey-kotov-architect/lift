@@ -12,7 +12,9 @@
     <artifactId>lift</artifactId>
     <version>1.0</version>
     <name>lift</name>
-    <description>Optimal lift scheduling model</description>
+    <description>Optimal lift scheduling model based on lift parameters, floor population, state of lifts,
+        current requests, request stream expectation based on stochastic model
+    </description>
 
     <properties>
         <java.version>1.8</java.version>
