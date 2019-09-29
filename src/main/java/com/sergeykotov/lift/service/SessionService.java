@@ -77,6 +77,6 @@ public class SessionService {
             throw new NoSessionException();
         }
         sessions.remove(session.get());
-        log.info("session " + session + " has been deleted");
+        log.info("session " + session.get() + " has been deleted");
     }
 }
