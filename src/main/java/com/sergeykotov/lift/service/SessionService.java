@@ -14,6 +14,7 @@ import java.util.Optional;
 import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.atomic.AtomicLong;
 
 //TODO: make POOL_SIZE configurable
@@ -45,10 +46,12 @@ public class SessionService {
         long id = sessionCounter.incrementAndGet();
         Session session = new Session(id, profile);
         sessions.add(session);
+        log.info("session " + session + " has been created based on profile " + profile);
+
         RunSession runSession = new RunSession(session);
         executorService.submit(runSession);
-        String message = "session %s has been created based on profile %s, session pool size is %d";
-        log.info(String.format(message, session, profile, sessions.size()));
+        int runningSessions = ((ThreadPoolExecutor) executorService).getActiveCount();
+        log.info("total sessions " + sessions.size() + ", running sessions " + runningSessions);
         return id;
     }
 
