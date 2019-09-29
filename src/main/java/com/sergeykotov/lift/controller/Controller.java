@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-//TODO: add configurable API version and authentication layer
+//TODO: add configurable API version, authentication layer and too many requests protection
 
 @RestController
 @RequestMapping("/api/")
