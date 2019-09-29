@@ -11,7 +11,7 @@ import java.util.List;
 //TODO: add configurable API version, authentication layer and too many requests protection
 
 @RestController
-@RequestMapping("/api/")
+@RequestMapping("/api/v1/")
 public class Controller {
     private final SessionService sessionService;
 
