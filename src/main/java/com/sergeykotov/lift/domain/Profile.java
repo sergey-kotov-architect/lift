@@ -9,6 +9,7 @@ public class Profile {
     private String note;
     private Set<Lift> lifts;
     private Set<Floor> floors;
+    private long seconds;
 
     public Profile() {
     }
@@ -51,6 +52,14 @@ public class Profile {
 
     public void setFloors(Set<Floor> floors) {
         this.floors = floors;
+    }
+
+    public long getSeconds() {
+        return seconds;
+    }
+
+    public void setSeconds(long seconds) {
+        this.seconds = seconds;
     }
 
     @Override
