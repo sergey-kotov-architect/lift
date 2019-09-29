@@ -21,7 +21,7 @@ public class Controller {
     }
 
     @PostMapping("session")
-    public long createSession(@RequestBody Profile profile) {
+    public Session createSession(@RequestBody Profile profile) {
         return sessionService.create(profile);
     }
 

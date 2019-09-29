@@ -36,7 +36,7 @@ public class SessionService {
         this.profileService = profileService;
     }
 
-    public long create(Profile profile) {
+    public Session create(Profile profile) {
         log.info("trying to create a new session...");
         if (sessions.size() == POOL_SIZE) {
             log.error("session pool is full");
@@ -52,7 +52,7 @@ public class SessionService {
         executorService.submit(runSession);
         int runningSessions = ((ThreadPoolExecutor) executorService).getActiveCount();
         log.info("total sessions " + sessions.size() + ", running sessions " + runningSessions);
-        return id;
+        return session;
     }
 
     public List<Session> getAll() {
