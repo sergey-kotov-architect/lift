@@ -1,5 +1,6 @@
 package com.sergeykotov.lift.service;
 
+import com.sergeykotov.lift.Task.RunSession;
 import com.sergeykotov.lift.domain.Profile;
 import com.sergeykotov.lift.domain.Session;
 import com.sergeykotov.lift.exception.NoSessionException;
@@ -10,6 +11,8 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.Optional;
 import java.util.concurrent.CopyOnWriteArrayList;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 import java.util.concurrent.atomic.AtomicLong;
 
 //TODO: make POOL_SIZE configurable
@@ -18,9 +21,12 @@ import java.util.concurrent.atomic.AtomicLong;
 @Service
 public class SessionService {
     private static final int POOL_SIZE = Integer.MAX_VALUE;
+    private static final int PROCESSOR_COUNT = Runtime.getRuntime().availableProcessors();
+
     private static final Logger log = Logger.getLogger(SessionService.class);
     private static final AtomicLong sessionCounter = new AtomicLong(0L);
     private static final List<Session> sessions = new CopyOnWriteArrayList<>();
+    private static final ExecutorService executorService = Executors.newFixedThreadPool(PROCESSOR_COUNT);
 
     public long create(Profile profile) {
         if (sessions.size() == POOL_SIZE) {
@@ -29,6 +35,8 @@ public class SessionService {
         long id = sessionCounter.incrementAndGet();
         Session session = new Session(id, profile);
         sessions.add(session);
+        RunSession runSession = new RunSession(session);
+        executorService.submit(runSession);
         log.info("session " + session + " has been created, session pool size is " + sessions.size());
         return id;
     }
