@@ -6,6 +6,7 @@ import com.sergeykotov.lift.domain.Session;
 import com.sergeykotov.lift.exception.NoSessionException;
 import com.sergeykotov.lift.exception.SessionPoolException;
 import org.apache.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -27,17 +28,27 @@ public class SessionService {
     private static final AtomicLong sessionCounter = new AtomicLong(0L);
     private static final List<Session> sessions = new CopyOnWriteArrayList<>();
     private static final ExecutorService executorService = Executors.newFixedThreadPool(PROCESSOR_COUNT);
+    private final ProfileService profileService;
+
+    @Autowired
+    public SessionService(ProfileService profileService) {
+        this.profileService = profileService;
+    }
 
     public long create(Profile profile) {
+        log.info("trying to create a new session");
         if (sessions.size() == POOL_SIZE) {
+            log.error("session pool is full");
             throw new SessionPoolException();
         }
+        profileService.validate(profile);
         long id = sessionCounter.incrementAndGet();
         Session session = new Session(id, profile);
         sessions.add(session);
         RunSession runSession = new RunSession(session);
         executorService.submit(runSession);
-        log.info("session " + session + " has been created, session pool size is " + sessions.size());
+        String message = "session %s has been created based on profile %s, session pool size is %d";
+        log.info(String.format(message, session, profile, sessions.size()));
         return id;
     }
 

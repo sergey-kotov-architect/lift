@@ -1,10 +1,14 @@
 package com.sergeykotov.lift.domain;
 
+import java.time.LocalDateTime;
 import java.util.Objects;
 
 public class Session {
     private final long id;
     private final Profile profile;
+    private Metrics metrics;
+    private LocalDateTime start;
+    private LocalDateTime end;
 
     public Session(long id, Profile profile) {
         this.id = id;
@@ -17,6 +21,30 @@ public class Session {
 
     public Profile getProfile() {
         return profile;
+    }
+
+    public Metrics getMetrics() {
+        return metrics;
+    }
+
+    public void setMetrics(Metrics metrics) {
+        this.metrics = metrics;
+    }
+
+    public LocalDateTime getStart() {
+        return start;
+    }
+
+    public void setStart(LocalDateTime start) {
+        this.start = start;
+    }
+
+    public LocalDateTime getEnd() {
+        return end;
+    }
+
+    public void setEnd(LocalDateTime end) {
+        this.end = end;
     }
 
     @Override
