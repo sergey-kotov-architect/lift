@@ -16,6 +16,7 @@ public class ProfileService {
     private static final int MAX_NOTE_LENGTH = 4000;
     private static final long MIN_SECONDS = 1L;
     private static final long MAX_SECONDS = 100_000_000L;
+    private static final int MIN_FLOOR_COUNT = 2;
 
     public void validate(Profile profile) {
         if (profile == null) {
@@ -35,22 +36,29 @@ public class ProfileService {
             throw new InvalidProfileException();
         }
 
-        Set<Lift> lifts = profile.getLifts();
-        if (lifts == null || lifts.isEmpty()) {
-            log.error("no lifts");
-            throw new InvalidProfileException();
-        }
-
-        Set<Floor> floors = profile.getFloors();
-        if (floors == null || floors.size() < 2) {
-            log.error("not enough of floors");
-            throw new InvalidProfileException();
-        }
-
         long seconds = profile.getSeconds();
         if (seconds < MIN_SECONDS || seconds > MIN_SECONDS) {
             log.error("period " + seconds + " is not in range of seconds [" + MIN_SECONDS + ", " + MAX_SECONDS + "]");
             throw new InvalidProfileException();
         }
+
+        validateLifts(profile.getLifts());
+        validateFloors(profile.getFloors());
+    }
+
+    private void validateLifts(Set<Lift> lifts) {
+        if (lifts == null || lifts.isEmpty()) {
+            log.error("no lifts");
+            throw new InvalidProfileException();
+        }
+        //TODO: validate each lift
+    }
+
+    private void validateFloors(Set<Floor> floors) {
+        if (floors == null || floors.size() < MIN_FLOOR_COUNT) {
+            log.error("not enough of floors");
+            throw new InvalidProfileException();
+        }
+        //TODO: validate each floor
     }
 }
