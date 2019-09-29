@@ -53,7 +53,7 @@ public class ProfileService {
         }
 
         long seconds = profile.getSeconds();
-        if (seconds < MIN_SECONDS || seconds > MIN_SECONDS) {
+        if (seconds < MIN_SECONDS || seconds > MAX_SECONDS) {
             log.error("period " + seconds + " is not in range of seconds [" + MIN_SECONDS + ", " + MAX_SECONDS + "]");
             throw new InvalidProfileException();
         }
