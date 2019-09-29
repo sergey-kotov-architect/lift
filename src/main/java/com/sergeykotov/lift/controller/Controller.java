@@ -26,12 +26,22 @@ public class Controller {
     }
 
     @GetMapping("session")
-    public List<Session> getSession() {
+    public List<Session> getSessions() {
         return sessionService.getAll();
     }
 
     @GetMapping("session/{id}")
     public Session getSession(@PathVariable long id) {
         return sessionService.get(id);
+    }
+
+    @DeleteMapping("session")
+    public void deleteSessions() {
+        sessionService.deleteAll();
+    }
+
+    @DeleteMapping("session/{id}")
+    public void deleteSession(@PathVariable long id) {
+        sessionService.delete(id);
     }
 }

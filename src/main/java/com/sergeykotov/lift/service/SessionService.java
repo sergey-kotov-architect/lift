@@ -2,25 +2,59 @@ package com.sergeykotov.lift.service;
 
 import com.sergeykotov.lift.domain.Profile;
 import com.sergeykotov.lift.domain.Session;
+import com.sergeykotov.lift.exception.NoSessionException;
+import com.sergeykotov.lift.exception.SessionPoolException;
 import org.apache.log4j.Logger;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
+import java.util.concurrent.CopyOnWriteArrayList;
+import java.util.concurrent.atomic.AtomicLong;
+
+//TODO: make POOL_SIZE configurable
+//TODO: handle sessionCounter overflow
 
 @Service
 public class SessionService {
+    private static final int POOL_SIZE = Integer.MAX_VALUE;
     private static final Logger log = Logger.getLogger(SessionService.class);
+    private static final AtomicLong sessionCounter = new AtomicLong(0L);
+    private static final List<Session> sessions = new CopyOnWriteArrayList<>();
 
     public long create(Profile profile) {
-        log.info("creating a session based on profile " + profile);
-        throw new RuntimeException("operation not supported yet");
+        if (sessions.size() == POOL_SIZE) {
+            throw new SessionPoolException();
+        }
+        long id = sessionCounter.incrementAndGet();
+        Session session = new Session(id, profile);
+        sessions.add(session);
+        log.info("session " + session + " has been created, session pool size is " + sessions.size());
+        return id;
     }
 
     public List<Session> getAll() {
-        throw new RuntimeException("operation not supported yet");
+        return sessions;
     }
 
     public Session get(long id) {
-        throw new RuntimeException("operation not supported yet");
+        return sessions.stream().filter(s -> s.getId() == id).findAny().orElseThrow(NoSessionException::new);
+    }
+
+    public void deleteAll() {
+        log.info("deleting all sessions...");
+        sessions.clear();
+        log.info("all sessions have been deleted");
+    }
+
+    public void delete(long id) {
+        log.info("deleting session " + id + "...");
+        Optional<Session> session = sessions.stream().filter(s -> s.getId() == id).findAny();
+        if (!session.isPresent()) {
+            log.error("no session with id " + id + " to delete");
+            throw new NoSessionException();
+        }
+        sessions.remove(session.get());
+        log.info("session " + session + " has been deleted");
     }
 }
