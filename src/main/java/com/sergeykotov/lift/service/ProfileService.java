@@ -101,8 +101,8 @@ public class ProfileService {
     }
 
     private void validateFloors(Set<Floor> floors) {
-        if (floors == null || floors.isEmpty()) {
-            log.error("no floors");
+        if (floors == null || floors.size() < 2) {
+            log.error("not enough floors");
             throw new InvalidProfileException();
         }
 
