@@ -1,8 +1,12 @@
 package com.sergeykotov.lift.service;
 
+import com.sergeykotov.lift.domain.Floor;
+import com.sergeykotov.lift.domain.Lift;
 import com.sergeykotov.lift.domain.Profile;
 import com.sergeykotov.lift.domain.State;
 import org.springframework.stereotype.Service;
+
+import java.util.Map;
 
 @Service
 public class StateService {
@@ -13,6 +17,17 @@ public class StateService {
     }
 
     public void update(State state) {
-        //TODO: implement state update
+        Map<Lift, Floor> liftFloorMap = state.getLiftFloorMap();
+        for (Map.Entry<Lift, Floor> entry : liftFloorMap.entrySet()) {
+            Lift lift = entry.getKey();
+            Floor floor = entry.getValue();
+            Floor current = lift.getFloor();
+            if (floor == null || current.equals(floor)) {
+                continue;
+            }
+            Floor next = null;
+            lift.setFloor(next);
+        }
+        //TODO: update requests and check if new requests were sent
     }
 }

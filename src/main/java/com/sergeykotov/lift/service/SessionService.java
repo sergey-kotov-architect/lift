@@ -14,7 +14,6 @@ import java.util.List;
 import java.util.Optional;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
-import java.util.concurrent.ThreadPoolExecutor;
 
 @Service
 public class SessionService {
@@ -46,8 +45,6 @@ public class SessionService {
 
         SessionTask sessionTask = new SessionTask(session);
         executorService.submit(sessionTask);
-        int runningSessions = ((ThreadPoolExecutor) executorService).getActiveCount();
-        log.info("total sessions " + sessions.size() + ", running sessions " + runningSessions);
         return session;
     }
 
