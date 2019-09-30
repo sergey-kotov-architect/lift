@@ -8,6 +8,7 @@ public class Lift {
     private String note;
     private int capacity;
     private int speed;
+    private Floor floor;
 
     public Lift() {
     }
@@ -50,6 +51,14 @@ public class Lift {
 
     public void setSpeed(int speed) {
         this.speed = speed;
+    }
+
+    public Floor getFloor() {
+        return floor;
+    }
+
+    public void setFloor(Floor floor) {
+        this.floor = floor;
     }
 
     @Override
