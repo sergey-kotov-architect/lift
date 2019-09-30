@@ -1,14 +1,14 @@
 package com.sergeykotov.lift.domain;
 
+import java.util.List;
 import java.util.Objects;
-import java.util.Set;
 
 public class Profile {
     private long id;
     private String name;
     private String note;
-    private Set<Lift> lifts;
-    private Set<Floor> floors;
+    private List<Lift> lifts;
+    private List<Floor> floors;
     private long seconds;
 
     public Profile() {
@@ -38,19 +38,19 @@ public class Profile {
         this.note = note;
     }
 
-    public Set<Lift> getLifts() {
+    public List<Lift> getLifts() {
         return lifts;
     }
 
-    public void setLifts(Set<Lift> lifts) {
+    public void setLifts(List<Lift> lifts) {
         this.lifts = lifts;
     }
 
-    public Set<Floor> getFloors() {
+    public List<Floor> getFloors() {
         return floors;
     }
 
-    public void setFloors(Set<Floor> floors) {
+    public void setFloors(List<Floor> floors) {
         this.floors = floors;
     }
 

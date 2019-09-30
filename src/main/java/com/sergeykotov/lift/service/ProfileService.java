@@ -7,7 +7,7 @@ import com.sergeykotov.lift.exception.InvalidProfileException;
 import org.apache.log4j.Logger;
 import org.springframework.stereotype.Service;
 
-import java.util.Set;
+import java.util.List;
 
 @Service
 public class ProfileService {
@@ -60,7 +60,7 @@ public class ProfileService {
         validateFloors(profile.getFloors());
     }
 
-    private void validateLifts(Set<Lift> lifts) {
+    private void validateLifts(List<Lift> lifts) {
         if (lifts == null || lifts.isEmpty()) {
             log.error("no lifts");
             throw new InvalidProfileException();
@@ -98,7 +98,7 @@ public class ProfileService {
         }
     }
 
-    private void validateFloors(Set<Floor> floors) {
+    private void validateFloors(List<Floor> floors) {
         if (floors == null || floors.size() < 2) {
             log.error("not enough floors");
             throw new InvalidProfileException();
