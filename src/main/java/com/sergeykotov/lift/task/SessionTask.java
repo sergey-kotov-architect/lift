@@ -28,15 +28,16 @@ public class SessionTask extends Thread {
         log.info("session " + session + " has been initiated");
         session.setStart(LocalDateTime.now());
 
+        com.sergeykotov.lift.domain.State state = stateService.create(session.getProfile());
         for (int i = 0; i < session.getProfile().getSeconds(); i++) {
-            stateService.update(session.getState());
-            scheduleService.generate(session.getState());
+            stateService.update(state);
+            scheduleService.generate(state);
         }
 
         session.setEnd(LocalDateTime.now());
         log.info("session " + session + " has been completed");
 
-        Metrics metrics = metricsService.evaluate(session.getState());
+        Metrics metrics = metricsService.evaluate(state);
         session.setMetrics(metrics);
         log.info("session " + session + " metrics have been evaluated");
     }

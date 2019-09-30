@@ -6,15 +6,14 @@ import java.util.Objects;
 public class Session {
     private final long id;
     private final Profile profile;
-    private final State state;
+    private State state;
     private Metrics metrics;
     private LocalDateTime start;
     private LocalDateTime end;
 
-    public Session(long id, Profile profile, State state) {
+    public Session(long id, Profile profile) {
         this.id = id;
         this.profile = profile;
-        this.state = state;
     }
 
     public long getId() {
@@ -27,6 +26,10 @@ public class Session {
 
     public State getState() {
         return state;
+    }
+
+    public void setState(State state) {
+        this.state = state;
     }
 
     public Metrics getMetrics() {
