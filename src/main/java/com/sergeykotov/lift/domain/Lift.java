@@ -7,7 +7,7 @@ public class Lift {
     private String name;
     private String note;
     private int capacity;
-    private int speed;
+    private double speed;
     private Floor floor;
 
     public Lift() {
@@ -45,11 +45,11 @@ public class Lift {
         this.capacity = capacity;
     }
 
-    public int getSpeed() {
+    public double getSpeed() {
         return speed;
     }
 
-    public void setSpeed(int speed) {
+    public void setSpeed(double speed) {
         this.speed = speed;
     }
 

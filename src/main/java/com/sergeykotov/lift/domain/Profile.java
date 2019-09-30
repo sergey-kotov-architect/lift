@@ -77,6 +77,6 @@ public class Profile {
 
     @Override
     public String toString() {
-        return getId() + ": " + getName();
+        return getName();
     }
 }

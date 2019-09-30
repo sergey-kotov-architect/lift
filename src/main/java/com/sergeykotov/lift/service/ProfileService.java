@@ -23,8 +23,8 @@ public class ProfileService {
     private static final int MAX_LIFT_NOTE_LENGTH = 4000;
     private static final int MIN_LIFT_CAPACITY = 1;
     private static final int MAX_LIFT_CAPACITY = Integer.MAX_VALUE;
-    private static final int MIN_LIFT_SPEED = 1;
-    private static final int MAX_LIFT_SPEED = Integer.MAX_VALUE;
+    private static final double MIN_LIFT_SPEED = 0;
+    private static final double MAX_LIFT_SPEED = Double.MAX_VALUE;
 
     private static final int MAX_FLOOR_COUNT = Integer.MAX_VALUE;
     private static final int MAX_FLOOR_NAME_LENGTH = 50;
@@ -90,8 +90,8 @@ public class ProfileService {
                 throw new InvalidProfileException();
             }
 
-            int speed = lift.getSpeed();
-            if (speed < MIN_LIFT_SPEED || speed > MAX_LIFT_SPEED) {
+            double speed = lift.getSpeed();
+            if (speed <= MIN_LIFT_SPEED || speed > MAX_LIFT_SPEED) {
                 log.error("lift " + lift + " has an invalid speed " + speed);
                 throw new InvalidProfileException();
             }
