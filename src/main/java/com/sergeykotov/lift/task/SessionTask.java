@@ -1,6 +1,7 @@
 package com.sergeykotov.lift.task;
 
 import com.sergeykotov.lift.domain.Metrics;
+import com.sergeykotov.lift.domain.Profile;
 import com.sergeykotov.lift.domain.Session;
 import com.sergeykotov.lift.service.MetricsService;
 import com.sergeykotov.lift.service.ScheduleService;
@@ -28,8 +29,9 @@ public class SessionTask extends Thread {
         log.info("session " + session + " has been initiated");
         session.setStart(LocalDateTime.now());
 
-        com.sergeykotov.lift.domain.State state = stateService.create(session.getProfile());
-        for (int i = 0; i < session.getProfile().getSeconds(); i++) {
+        Profile profile = session.getProfile();
+        com.sergeykotov.lift.domain.State state = stateService.create(profile);
+        for (int i = 0; i < profile.getSeconds(); i++) {
             stateService.update(state);
             scheduleService.generate(state);
         }
