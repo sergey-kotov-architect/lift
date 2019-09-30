@@ -2,6 +2,7 @@ package com.sergeykotov.lift.service;
 
 import com.sergeykotov.lift.domain.Profile;
 import com.sergeykotov.lift.domain.Session;
+import com.sergeykotov.lift.domain.State;
 import com.sergeykotov.lift.exception.NoSessionException;
 import com.sergeykotov.lift.exception.SessionPoolException;
 import com.sergeykotov.lift.task.SessionTask;
@@ -25,12 +26,14 @@ public class SessionService {
     private static final ExecutorService executorService = Executors.newFixedThreadPool(PROCESSOR_COUNT);
 
     private final ProfileService profileService;
+    private final StateService stateService;
 
     private static long sessionCounter = 0L;
 
     @Autowired
-    public SessionService(ProfileService profileService) {
+    public SessionService(ProfileService profileService, StateService stateService) {
         this.profileService = profileService;
+        this.stateService = stateService;
     }
 
     public Session create(Profile profile) {
@@ -40,7 +43,8 @@ public class SessionService {
             throw new SessionPoolException();
         }
         profileService.validate(profile);
-        Session session = new Session(++sessionCounter, profile);
+        State state = stateService.create(profile);
+        Session session = new Session(++sessionCounter, profile, state);
         sessions.add(session);
         log.info("session " + session + " has been created based on profile " + profile);
 
