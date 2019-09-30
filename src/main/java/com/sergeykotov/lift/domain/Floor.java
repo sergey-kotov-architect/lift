@@ -58,6 +58,6 @@ public class Floor {
 
     @Override
     public String toString() {
-        return getId() + ": " + getName();
+        return getName();
     }
 }

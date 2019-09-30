@@ -95,6 +95,12 @@ public class ProfileService {
                 log.error("lift " + lift + " has an invalid speed " + speed);
                 throw new InvalidProfileException();
             }
+
+            Floor floor = lift.getFloor();
+            if (floor == null) {
+                log.error("lift " + lift + " has no initial floor");
+                throw new InvalidProfileException();
+            }
         }
     }
 
