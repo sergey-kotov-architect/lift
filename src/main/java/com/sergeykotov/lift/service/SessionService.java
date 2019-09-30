@@ -9,23 +9,25 @@ import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import java.util.concurrent.atomic.AtomicLong;
 
 @Service
 public class SessionService {
-    private static final int POOL_SIZE = Integer.MAX_VALUE;
-    private static final int PROCESSOR_COUNT = Runtime.getRuntime().availableProcessors();
     private static final Logger log = Logger.getLogger(SessionService.class);
-    private static final List<Session> sessions = new ArrayList<>();
+
+    private static final int POOL_SIZE = Integer.MAX_VALUE;
+    private static final List<Session> sessions = new CopyOnWriteArrayList<>();
+    private static final AtomicLong sessionCounter = new AtomicLong(0L);
+
+    private static final int PROCESSOR_COUNT = Runtime.getRuntime().availableProcessors();
     private static final ExecutorService executorService = Executors.newFixedThreadPool(PROCESSOR_COUNT);
 
     private final ProfileService profileService;
-
-    private static long sessionCounter = 0L;
 
     @Autowired
     public SessionService(ProfileService profileService) {
@@ -39,7 +41,7 @@ public class SessionService {
             throw new SessionPoolException();
         }
         profileService.validate(profile);
-        Session session = new Session(++sessionCounter, profile);
+        Session session = new Session(sessionCounter.incrementAndGet(), profile);
         sessions.add(session);
         log.info("session " + session + " has been created based on profile " + profile);
 
