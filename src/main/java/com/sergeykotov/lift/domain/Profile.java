@@ -9,7 +9,7 @@ public class Profile {
     private String note;
     private List<Lift> lifts;
     private List<Floor> floors;
-    private long seconds;
+    private long milliseconds;
 
     public Profile() {
     }
@@ -54,12 +54,12 @@ public class Profile {
         this.floors = floors;
     }
 
-    public long getSeconds() {
-        return seconds;
+    public long getMilliseconds() {
+        return milliseconds;
     }
 
-    public void setSeconds(long seconds) {
-        this.seconds = seconds;
+    public void setMilliseconds(long milliseconds) {
+        this.milliseconds = milliseconds;
     }
 
     @Override

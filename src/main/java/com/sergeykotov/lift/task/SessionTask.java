@@ -12,6 +12,7 @@ import java.time.LocalDateTime;
 
 public class SessionTask extends Thread {
     private static final Logger log = Logger.getLogger(SessionTask.class);
+    private static final long STATE_UPDATE_FREQUENCY = 1000L;
 
     private final StateService stateService = new StateService();
     private final ScheduleService scheduleService = new ScheduleService();
@@ -31,9 +32,23 @@ public class SessionTask extends Thread {
 
         Profile profile = session.getProfile();
         com.sergeykotov.lift.domain.State state = stateService.create(profile);
-        for (int i = 0; i < profile.getSeconds(); i++) {
+        for (long i = 0; i < profile.getMilliseconds(); i += STATE_UPDATE_FREQUENCY) {
+            long start = System.currentTimeMillis();
+
             stateService.update(state);
             scheduleService.generate(state);
+
+            long elapsed = System.currentTimeMillis() - start;
+            if (elapsed > STATE_UPDATE_FREQUENCY) {
+                log.error(getName() + ": iteration took " + elapsed + " exceeding " + STATE_UPDATE_FREQUENCY);
+                continue;
+            }
+            try {
+                Thread.sleep(STATE_UPDATE_FREQUENCY - elapsed);
+            } catch (InterruptedException e) {
+                log.error(getName() + ": interrupted", e);
+                return;
+            }
         }
 
         session.setEnd(LocalDateTime.now());

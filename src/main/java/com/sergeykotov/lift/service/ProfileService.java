@@ -50,7 +50,7 @@ public class ProfileService {
             throw new InvalidProfileException();
         }
 
-        long seconds = profile.getSeconds();
+        long seconds = profile.getMilliseconds();
         if (seconds < MIN_SECONDS || seconds > MAX_SECONDS) {
             log.error("period " + seconds + " is not in range of seconds [" + MIN_SECONDS + ", " + MAX_SECONDS + "]");
             throw new InvalidProfileException();
