@@ -1,13 +1,29 @@
 package com.sergeykotov.lift.domain;
 
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Positive;
+import javax.validation.constraints.Size;
 import java.util.Objects;
 
 public class Lift {
+    @Positive
     private long id;
+
+    @Size(max = 255)
+    @NotEmpty
     private String name;
+
+    @Size(max = 4000)
     private String note;
+
+    @Positive
     private int capacity;
+
+    @Positive
     private double speed;
+
+    @NotNull
     private Floor floor;
 
     public Lift() {
