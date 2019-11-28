@@ -54,7 +54,7 @@ public class SessionService {
         return sessions;
     }
 
-    public Session get(long id) {
+    public Session getById(long id) {
         return sessions.stream().filter(s -> s.getId() == id).findAny().orElseThrow(NoSessionException::new);
     }
 
@@ -64,7 +64,7 @@ public class SessionService {
         log.info("all sessions have been deleted");
     }
 
-    public void delete(long id) {
+    public void deleteById(long id) {
         log.info("deleting session " + id + "...");
         Optional<Session> session = sessions.stream().filter(s -> s.getId() == id).findAny();
         if (!session.isPresent()) {

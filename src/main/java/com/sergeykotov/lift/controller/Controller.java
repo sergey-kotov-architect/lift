@@ -7,6 +7,7 @@ import com.sergeykotov.lift.service.SessionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @RestController
@@ -22,7 +23,7 @@ public class Controller {
     }
 
     @PostMapping("session")
-    public Session createSession(@RequestHeader String authorization, @RequestBody Profile profile) {
+    public Session createSession(@RequestHeader String authorization, @RequestBody @Valid Profile profile) {
         authorizationService.authorize(authorization);
         return sessionService.create(profile);
     }
@@ -34,9 +35,9 @@ public class Controller {
     }
 
     @GetMapping("session/{id}")
-    public Session getSession(@PathVariable long id, @RequestHeader String authorization) {
+    public Session getSession(@RequestHeader String authorization, @PathVariable long id) {
         authorizationService.authorize(authorization);
-        return sessionService.get(id);
+        return sessionService.getById(id);
     }
 
     @DeleteMapping("session")
@@ -46,8 +47,8 @@ public class Controller {
     }
 
     @DeleteMapping("session/{id}")
-    public void deleteSession(@PathVariable long id, @RequestHeader String authorization) {
+    public void deleteSession(@RequestHeader String authorization, @PathVariable long id) {
         authorizationService.authorize(authorization);
-        sessionService.delete(id);
+        sessionService.deleteById(id);
     }
 }
