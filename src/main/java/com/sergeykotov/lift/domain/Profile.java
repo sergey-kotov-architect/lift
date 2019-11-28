@@ -23,6 +23,7 @@ public class Profile {
     @NotEmpty
     private List<Floor> floors;
 
+    @Positive
     private long milliseconds;
 
     public Profile() {
