@@ -3,18 +3,15 @@ current requests, request stream expectation based on stochastic model
 
 ### Technologies and tools
 * Java 8
-* Spring Boot, Spring Web/MVC, Spring Test/Junit
-* BCrypt
+* Spring (Boot, Web/MVC, Test, Actuator)
 * Apache Log4j
 * Maven
 * Git
 * IntelliJ IDEA
 * Insomnia REST Client
+* VisualVM (profiler)
 
 ### TODO
 * reformat logging
 * create unit-tests
-* prevent processing too many requests
-* use HTTPS
-* interrupt all sessions or by id
 * implement SessionTask::run
