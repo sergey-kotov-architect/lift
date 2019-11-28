@@ -28,7 +28,7 @@ public class SessionTask extends Thread {
         this.stateService = stateService;
         this.scheduleService = scheduleService;
         this.metricsService = metricsService;
-        setName("session " + session.getId());
+        setName("session " + session);
     }
 
     @Override
@@ -52,7 +52,8 @@ public class SessionTask extends Thread {
             try {
                 Thread.sleep(STATE_UPDATE_FREQUENCY - elapsed);
             } catch (InterruptedException e) {
-                log.error(getName() + ": interrupted", e);
+                session.setEnd(LocalDateTime.now());
+                log.error(getName() + " has been interrupted", e);
                 return;
             }
         }
