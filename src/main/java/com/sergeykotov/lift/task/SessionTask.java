@@ -14,15 +14,21 @@ public class SessionTask extends Thread {
     private static final Logger log = Logger.getLogger(SessionTask.class);
     private static final long STATE_UPDATE_FREQUENCY = 1000L;
 
-    private final StateService stateService = new StateService();
-    private final ScheduleService scheduleService = new ScheduleService();
-    private final MetricsService metricsService = new MetricsService();
+    private final StateService stateService;
+    private final ScheduleService scheduleService;
+    private final MetricsService metricsService;
 
     private final Session session;
 
-    public SessionTask(Session session) {
+    public SessionTask(Session session,
+                       StateService stateService,
+                       ScheduleService scheduleService,
+                       MetricsService metricsService) {
         this.session = session;
-        setName("session " + session);
+        this.stateService = stateService;
+        this.scheduleService = scheduleService;
+        this.metricsService = metricsService;
+        setName("session " + session.getId());
     }
 
     @Override

@@ -27,11 +27,15 @@ public class SessionService {
     private static final int PROCESSOR_COUNT = Runtime.getRuntime().availableProcessors();
     private static final ExecutorService executorService = Executors.newFixedThreadPool(PROCESSOR_COUNT);
 
-    private final ProfileService profileService;
+    private final StateService stateService;
+    private final ScheduleService scheduleService;
+    private final MetricsService metricsService;
 
     @Autowired
-    public SessionService(ProfileService profileService) {
-        this.profileService = profileService;
+    public SessionService(StateService stateService, ScheduleService scheduleService, MetricsService metricsService) {
+        this.stateService = stateService;
+        this.scheduleService = scheduleService;
+        this.metricsService = metricsService;
     }
 
     public Session create(Profile profile) {
@@ -40,12 +44,11 @@ public class SessionService {
             log.error("session pool is full: " + POOL_SIZE);
             throw new SessionPoolException();
         }
-        profileService.validate(profile);
         Session session = new Session(sessionCounter.incrementAndGet(), profile);
         sessions.add(session);
         log.info("session " + session + " has been created based on profile " + profile);
 
-        SessionTask sessionTask = new SessionTask(session);
+        SessionTask sessionTask = new SessionTask(session, stateService, scheduleService, metricsService);
         executorService.submit(sessionTask);
         return session;
     }
@@ -65,10 +68,10 @@ public class SessionService {
     }
 
     public void deleteById(long id) {
-        log.info("deleting session " + id + "...");
+        log.info("deleting session by ID " + id + "...");
         Optional<Session> session = sessions.stream().filter(s -> s.getId() == id).findAny();
         if (!session.isPresent()) {
-            log.error("no session with id " + id + " to delete");
+            log.error("no session with ID " + id + " to delete");
             throw new NoSessionException();
         }
         sessions.remove(session.get());
