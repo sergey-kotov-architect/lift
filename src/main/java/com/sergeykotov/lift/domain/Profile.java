@@ -1,14 +1,28 @@
 package com.sergeykotov.lift.domain;
 
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.Positive;
+import javax.validation.constraints.Size;
 import java.util.List;
 import java.util.Objects;
 
 public class Profile {
+    @Positive
     private long id;
+
+    @Size(max = 255)
+    @NotEmpty
     private String name;
+
+    @Size(max = 4000)
     private String note;
+
+    @NotEmpty
     private List<Lift> lifts;
+
+    @NotEmpty
     private List<Floor> floors;
+
     private long milliseconds;
 
     public Profile() {
