@@ -5,6 +5,7 @@ import com.sergeykotov.lift.domain.Session;
 import com.sergeykotov.lift.service.AuthorizationService;
 import com.sergeykotov.lift.service.SessionService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -23,6 +24,7 @@ public class Controller {
     }
 
     @PostMapping("session")
+    @ResponseStatus(HttpStatus.CREATED)
     public Session createSession(@RequestHeader String authorization, @RequestBody @Valid Profile profile) {
         authorizationService.authorize(authorization);
         return sessionService.create(profile);
@@ -41,12 +43,14 @@ public class Controller {
     }
 
     @DeleteMapping("session")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
     public void deleteSessions(@RequestHeader String authorization) {
         authorizationService.authorize(authorization);
         sessionService.deleteAll();
     }
 
     @DeleteMapping("session/{id}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
     public void deleteSession(@RequestHeader String authorization, @PathVariable long id) {
         authorizationService.authorize(authorization);
         sessionService.deleteById(id);
