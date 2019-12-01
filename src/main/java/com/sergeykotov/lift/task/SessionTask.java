@@ -2,6 +2,7 @@ package com.sergeykotov.lift.task;
 
 import com.sergeykotov.lift.domain.Metrics;
 import com.sergeykotov.lift.domain.Profile;
+import com.sergeykotov.lift.domain.Schedule;
 import com.sergeykotov.lift.domain.Session;
 import com.sergeykotov.lift.service.MetricsService;
 import com.sergeykotov.lift.service.ScheduleService;
@@ -44,7 +45,8 @@ public class SessionTask extends Thread {
             long start = System.currentTimeMillis();
 
             stateService.update(state);
-            scheduleService.generate(state);
+            Schedule schedule = scheduleService.generate(state);
+            state.setSchedule(schedule);
 
             long elapsed = System.currentTimeMillis() - start;
             if (elapsed > STATE_UPDATE_FREQUENCY) {

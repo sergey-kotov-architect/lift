@@ -10,6 +10,7 @@ import java.util.Map;
 public class State {
     private final List<Request> requests = new ArrayList<>();
     private final Map<Lift, Floor> liftFloorMap = new HashMap<>();
+    private Schedule schedule;
 
     public State() {
     }
@@ -21,5 +22,13 @@ public class State {
     @JsonProperty("lift_floor_map")
     public Map<Lift, Floor> getLiftFloorMap() {
         return liftFloorMap;
+    }
+
+    public Schedule getSchedule() {
+        return schedule;
+    }
+
+    public void setSchedule(Schedule schedule) {
+        this.schedule = schedule;
     }
 }
