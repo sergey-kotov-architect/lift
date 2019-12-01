@@ -39,7 +39,7 @@ public class SessionService {
     }
 
     public Session create(Profile profile) {
-        log.info("trying to create a new session...");
+        log.info("creating a new session based on profile " + profile + "...");
         if (sessions.size() == POOL_SIZE) {
             log.error("session pool is full: " + POOL_SIZE);
             throw new SessionPoolException();
