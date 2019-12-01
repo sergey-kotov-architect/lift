@@ -28,12 +28,17 @@ public class SessionService {
     private static final ExecutorService executorService = Executors.newFixedThreadPool(PROCESSOR_COUNT);
 
     private final StateService stateService;
+    private final RequestService requestService;
     private final ScheduleService scheduleService;
     private final MetricsService metricsService;
 
     @Autowired
-    public SessionService(StateService stateService, ScheduleService scheduleService, MetricsService metricsService) {
+    public SessionService(StateService stateService,
+                          RequestService requestService,
+                          ScheduleService scheduleService,
+                          MetricsService metricsService) {
         this.stateService = stateService;
+        this.requestService = requestService;
         this.scheduleService = scheduleService;
         this.metricsService = metricsService;
     }
@@ -48,7 +53,7 @@ public class SessionService {
         sessions.add(session);
         log.info("session " + session + " has been created based on profile " + profile);
 
-        SessionTask sessionTask = new SessionTask(session, stateService, scheduleService, metricsService);
+        SessionTask sessionTask = new SessionTask(session, stateService, requestService, scheduleService, metricsService);
         executorService.submit(sessionTask);
         return session;
     }

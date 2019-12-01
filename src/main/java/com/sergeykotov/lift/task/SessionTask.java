@@ -2,9 +2,9 @@ package com.sergeykotov.lift.task;
 
 import com.sergeykotov.lift.domain.Metrics;
 import com.sergeykotov.lift.domain.Profile;
-import com.sergeykotov.lift.domain.Schedule;
 import com.sergeykotov.lift.domain.Session;
 import com.sergeykotov.lift.service.MetricsService;
+import com.sergeykotov.lift.service.RequestService;
 import com.sergeykotov.lift.service.ScheduleService;
 import com.sergeykotov.lift.service.StateService;
 import org.apache.log4j.Logger;
@@ -18,6 +18,7 @@ public class SessionTask extends Thread {
     private static final long STATE_UPDATE_FREQUENCY = 1000L;
 
     private final StateService stateService;
+    private final RequestService requestService;
     private final ScheduleService scheduleService;
     private final MetricsService metricsService;
 
@@ -25,10 +26,12 @@ public class SessionTask extends Thread {
 
     public SessionTask(Session session,
                        StateService stateService,
+                       RequestService requestService,
                        ScheduleService scheduleService,
                        MetricsService metricsService) {
         this.session = session;
         this.stateService = stateService;
+        this.requestService = requestService;
         this.scheduleService = scheduleService;
         this.metricsService = metricsService;
         setName("session " + session);
@@ -45,8 +48,8 @@ public class SessionTask extends Thread {
             long start = System.currentTimeMillis();
 
             stateService.update(state);
-            Schedule schedule = scheduleService.generate(state);
-            state.setSchedule(schedule);
+            state.setRequests(requestService.generateRequests());
+            state.setSchedule(scheduleService.generate(state));
 
             long elapsed = System.currentTimeMillis() - start;
             if (elapsed > STATE_UPDATE_FREQUENCY) {

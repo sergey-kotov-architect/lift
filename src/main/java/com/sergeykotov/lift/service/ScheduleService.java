@@ -8,7 +8,7 @@ import org.springframework.stereotype.Service;
 public class ScheduleService {
     public Schedule generate(State state) {
         Schedule schedule = new Schedule();
-        //TODO: implement schedule generation
+        //TODO: implement schedule generation based on new requests and the state
         return schedule;
     }
 }
