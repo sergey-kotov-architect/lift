@@ -1,5 +1,7 @@
 package com.sergeykotov.lift.domain;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import java.time.LocalDateTime;
 import java.util.Objects;
 
@@ -22,6 +24,7 @@ public class Request {
         return id;
     }
 
+    @JsonProperty("current_floor")
     public Floor getCurrentFloor() {
         return currentFloor;
     }
@@ -34,6 +37,7 @@ public class Request {
         return lift;
     }
 
+    @JsonProperty("date_time")
     public LocalDateTime getDateTime() {
         return dateTime;
     }

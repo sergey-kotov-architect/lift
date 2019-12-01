@@ -1,5 +1,7 @@
 package com.sergeykotov.lift.domain;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -16,6 +18,7 @@ public class State {
         return requests;
     }
 
+    @JsonProperty("lift_floor_map")
     public Map<Lift, Floor> getLiftFloorMap() {
         return liftFloorMap;
     }
