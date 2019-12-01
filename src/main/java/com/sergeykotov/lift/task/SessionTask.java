@@ -9,6 +9,8 @@ import com.sergeykotov.lift.service.StateService;
 import org.apache.log4j.Logger;
 
 import java.time.LocalDateTime;
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.locks.LockSupport;
 
 public class SessionTask extends Thread {
     private static final Logger log = Logger.getLogger(SessionTask.class);
@@ -49,13 +51,7 @@ public class SessionTask extends Thread {
                 log.error(getName() + ": iteration took " + elapsed + " exceeding " + STATE_UPDATE_FREQUENCY);
                 continue;
             }
-            try {
-                Thread.sleep(STATE_UPDATE_FREQUENCY - elapsed);
-            } catch (InterruptedException e) {
-                session.setEnd(LocalDateTime.now());
-                log.error(getName() + " has been interrupted", e);
-                return;
-            }
+            LockSupport.parkNanos(TimeUnit.MILLISECONDS.toNanos(STATE_UPDATE_FREQUENCY - elapsed));
         }
 
         session.setEnd(LocalDateTime.now());
