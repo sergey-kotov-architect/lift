@@ -5,28 +5,21 @@ import java.util.Objects;
 
 public class Request {
     private final long id;
-    private final Session session;
     private final Floor currentFloor;
     private final Floor floor;
     private final Lift lift;
-    private final LocalDateTime dateTime;
+    private final LocalDateTime dateTime = LocalDateTime.now();
     private LocalDateTime processed;
 
-    public Request(long id, Session session, Floor currentFloor, Floor floor, Lift lift) {
+    public Request(long id, Floor currentFloor, Floor floor, Lift lift) {
         this.id = id;
-        this.session = session;
         this.currentFloor = currentFloor;
         this.floor = floor;
         this.lift = lift;
-        dateTime = LocalDateTime.now();
     }
 
     public long getId() {
         return id;
-    }
-
-    public Session getSession() {
-        return session;
     }
 
     public Floor getCurrentFloor() {

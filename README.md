@@ -13,6 +13,5 @@ current requests, request stream expectation based on stochastic model
 * VisualVM (profiler)
 
 ### TODO
-* reformat logging
 * create unit-tests
 * implement SessionTask::run
