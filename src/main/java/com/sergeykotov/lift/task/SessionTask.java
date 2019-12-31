@@ -7,14 +7,15 @@ import com.sergeykotov.lift.service.MetricsService;
 import com.sergeykotov.lift.service.RequestService;
 import com.sergeykotov.lift.service.ScheduleService;
 import com.sergeykotov.lift.service.StateService;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.time.LocalDateTime;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.locks.LockSupport;
 
 public class SessionTask extends Thread {
-    private static final Logger log = Logger.getLogger(SessionTask.class);
+    private static final Logger log = LoggerFactory.getLogger(SessionTask.class);
     private static final long STATE_UPDATE_FREQUENCY = 1000L;
 
     private final StateService stateService;

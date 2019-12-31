@@ -5,7 +5,8 @@ import com.sergeykotov.lift.domain.Session;
 import com.sergeykotov.lift.exception.NoSessionException;
 import com.sergeykotov.lift.exception.SessionPoolException;
 import com.sergeykotov.lift.task.SessionTask;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -18,7 +19,7 @@ import java.util.concurrent.atomic.AtomicLong;
 
 @Service
 public class SessionService {
-    private static final Logger log = Logger.getLogger(SessionService.class);
+    private static final Logger log = LoggerFactory.getLogger(SessionService.class);
 
     private static final int POOL_SIZE = Integer.MAX_VALUE;
     private static final List<Session> sessions = new CopyOnWriteArrayList<>();
